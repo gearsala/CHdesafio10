@@ -1,14 +1,14 @@
 import express from 'express';
 import Product from '../productClass';
 
-const app = express.Router();
+const router = express.Router();
 const products = new Product();
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
 	res.render('main', { layout: 'index' });
 });
 
-app.get('/productos/vista', (req, res) => {
+router.get('/productos/vista', (req, res) => {
 	res.render('listproducts', {
 		layout: 'index',
 		products: products.getProducts(),
@@ -16,18 +16,18 @@ app.get('/productos/vista', (req, res) => {
 	});
 });
 
-app.get('/productos/agregar', (req, res) => {
+router.get('/productos/agregar', (req, res) => {
 	res.render('addproducts', { layout: 'index' });
 });
 
-app.get('/productos/listar', (req, res) => {
+router.get('/productos/listar', (req, res) => {
 	const getProducts = products.getProducts();
 	getProducts.length !== 0
 		? res.json({ products: getProducts })
 		: res.status(404).json({ error: 'No hay productos cargados' });
 });
 
-app.get('/productos/listar/:id', (req, res) => {
+router.get('/productos/listar/:id', (req, res) => {
 	const specificId = req.params.id;
 	const getProducts = products.getProducts();
 	const product = getProducts.find((product) => product.id == specificId);
@@ -36,7 +36,7 @@ app.get('/productos/listar/:id', (req, res) => {
 		: res.status(404).json({ error: 'Producto no encontrado' });
 });
 
-app.post('/productos/guardar', (req, res) => {
+router.post('/productos/guardar', (req, res) => {
 	const body = req.body;
 	const newProduct = products.addProduct(
 		body.title,
@@ -48,7 +48,7 @@ app.post('/productos/guardar', (req, res) => {
 	});
 });
 
-app.put('/productos/actualizar/:id', (req, res) => {
+router.put('/productos/actualizar/:id', (req, res) => {
 	const specificId = req.params.id;
 	const body = req.body;
 	const updatedProduct = products.updateProduct(
@@ -62,7 +62,7 @@ app.put('/productos/actualizar/:id', (req, res) => {
 		: res.status(201).json({ product: updatedProduct });
 });
 
-app.delete('/productos/borrar/:id', (req, res) => {
+router.delete('/productos/borrar/:id', (req, res) => {
 	const specificId = req.params.id;
 	const deletedProduct = products.deleteProduct(specificId);
 	deletedProduct === -1
@@ -70,4 +70,4 @@ app.delete('/productos/borrar/:id', (req, res) => {
 		: res.status(201).json({ deletedProduct });
 });
 
-export default app;
+export default router;

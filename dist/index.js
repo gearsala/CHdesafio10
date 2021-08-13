@@ -29,13 +29,9 @@ const server = app.listen(port, () => {
 server.on('error', err => {
   console.error(`There was an error: ${err}`);
 });
+app.set('json spaces', 2);
 app.use(_express.default.json());
 app.use(_express.default.urlencoded({
   extended: true
 }));
-app.set('json spaces', 2);
-
-const publicPath = _path.default.resolve(__dirname, '../public');
-
-app.use(_express.default.static(publicPath));
-app.use('/api', _productos.default);
+app.use('/', _productos.default);

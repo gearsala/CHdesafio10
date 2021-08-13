@@ -11,27 +11,27 @@ var _productClass = _interopRequireDefault(require("../productClass"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const app = _express.default.Router();
+const router = _express.default.Router();
 
 const products = new _productClass.default();
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.render('main', {
     layout: 'index'
   });
 });
-app.get('/productos/vista', (req, res) => {
+router.get('/productos/vista', (req, res) => {
   res.render('listproducts', {
     layout: 'index',
     products: products.getProducts(),
     productExists: products.getProducts().length === 0 ? false : true
   });
 });
-app.get('/productos/agregar', (req, res) => {
+router.get('/productos/agregar', (req, res) => {
   res.render('addproducts', {
     layout: 'index'
   });
 });
-app.get('/productos/listar', (req, res) => {
+router.get('/productos/listar', (req, res) => {
   const getProducts = products.getProducts();
   getProducts.length !== 0 ? res.json({
     products: getProducts
@@ -39,7 +39,7 @@ app.get('/productos/listar', (req, res) => {
     error: 'No hay productos cargados'
   });
 });
-app.get('/productos/listar/:id', (req, res) => {
+router.get('/productos/listar/:id', (req, res) => {
   const specificId = req.params.id;
   const getProducts = products.getProducts();
   const product = getProducts.find(product => product.id == specificId);
@@ -49,14 +49,14 @@ app.get('/productos/listar/:id', (req, res) => {
     error: 'Producto no encontrado'
   });
 });
-app.post('/productos/guardar', (req, res) => {
+router.post('/productos/guardar', (req, res) => {
   const body = req.body;
   const newProduct = products.addProduct(body.title, body.price, body.thumbnail);
   res.json({
     product: newProduct
   });
 });
-app.put('/productos/actualizar/:id', (req, res) => {
+router.put('/productos/actualizar/:id', (req, res) => {
   const specificId = req.params.id;
   const body = req.body;
   const updatedProduct = products.updateProduct(specificId, body.title, body.price, body.thumbnail);
@@ -66,7 +66,7 @@ app.put('/productos/actualizar/:id', (req, res) => {
     product: updatedProduct
   });
 });
-app.delete('/productos/borrar/:id', (req, res) => {
+router.delete('/productos/borrar/:id', (req, res) => {
   const specificId = req.params.id;
   const deletedProduct = products.deleteProduct(specificId);
   deletedProduct === -1 ? res.status(404).json({
@@ -75,5 +75,5 @@ app.delete('/productos/borrar/:id', (req, res) => {
     deletedProduct
   });
 });
-var _default = app;
+var _default = router;
 exports.default = _default;

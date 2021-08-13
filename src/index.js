@@ -27,12 +27,9 @@ server.on('error', (err) => {
 	console.error(`There was an error: ${err}`);
 });
 
+app.set('json spaces', 2);
+
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 
-app.set('json spaces', 2);
-
-const publicPath = path.resolve(__dirname, '../public');
-app.use(express.static(publicPath));
-
-app.use('/api', Product);
+app.use('/', Product);

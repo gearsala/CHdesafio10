@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "transpile": "babel src --out-dir dist",
-    "start": "node ./dist/index.js",    
+    "start": "node ./dist/index.js",
     "build:start": "npm run transpile && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +17,9 @@
     "@babel/preset-env": "^7.15.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/express-handlebars": "^5.3.1"
   }
 }
